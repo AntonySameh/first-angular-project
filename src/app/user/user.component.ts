@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal, Input, input, computed, Output, EventEmitter} from '@angular/core';
 
-import
+import { single } from 'rxjs';
+
 @Component({
   selector: 'app-user',
   imports: [],
@@ -9,5 +10,19 @@ import
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  selectedUser = 
+  @Input({ required:true }) id!: string;
+  // @Input({ required: true }) avatar!: string;
+  // @Input({ required: true }) name!: string; 
+  avatar = input.required<string>()
+  name = input.required<string>()
+
+  @Output() selectedUser = new EventEmitter();
+
+  userImage = computed(() => 'assets/users/' + this.avatar())
+
+  // get userImage() {
+  //   return 'assets/users/' + this.avatar;
+  // }
+
+  onSelectUser(){}
 }
