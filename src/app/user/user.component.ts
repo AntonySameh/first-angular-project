@@ -1,4 +1,4 @@
-import { Component, signal, Input, input, computed, Output, EventEmitter} from '@angular/core';
+import { Component, signal, Input, input, computed, Output, EventEmitter, output} from '@angular/core';
 
 import { single } from 'rxjs';
 
@@ -10,19 +10,27 @@ import { single } from 'rxjs';
   styleUrl: './user.component.css'
 })
 export class UserComponent {
-  @Input({ required:true }) id!: string;
   // @Input({ required: true }) avatar!: string;
   // @Input({ required: true }) name!: string; 
-  avatar = input.required<string>()
-  name = input.required<string>()
 
-  @Output() selectedUser = new EventEmitter();
+  // @Input({ required:true }) id!: string;
+  // avatar = input.required<string>()
+  // name = input.required<string>()
 
-  userImage = computed(() => 'assets/users/' + this.avatar())
+  @Input () user!: {id: string, name: string, avatar: string};
+
+  // @Output() selectedUser = new EventEmitter();
+  selectedUser = output<string>();
+
+  get userImage() {
+    return 'assets/users/' + this.user.avatar;
+  }
 
   // get userImage() {
   //   return 'assets/users/' + this.avatar;
   // }
 
-  onSelectUser(){}
+  onSelectUser(){
+    this.selectedUser.emit(this.user.id)
+  }
 }
